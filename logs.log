@@ -1,0 +1,11 @@
+2023-10-05 23:53:24,926 ---------------Creating Outputs folder---------------
+2023-10-05 23:53:24,926 !!Output Folder already exists!!
+2023-10-05 23:53:24,926 ---------------Reading Input Data---------------
+2023-10-05 23:53:24,990 ---------------Transactional Data formed---------------
+2023-10-05 23:53:24,990 ---------------Performing Data Cleaning---------------
+2023-10-05 23:53:25,049 ---------------Data Cleaning Complete---------------
+2023-10-05 23:53:25,049 Total number of transactions from Dataset: 32562 
+2023-10-05 23:53:25,054 Maximum number of attributes present in the dataset : 15
+2023-10-05 23:53:25,103 ---------------Count of Items stored in a Dictionary---------------
+2023-10-05 23:53:25,112 ---------------Itemset sorted in decreasing order of their count---------------
+2023-10-05 23:53:25,161 ---------------Items in each transaction are sorted---------------
