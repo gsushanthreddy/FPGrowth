@@ -1,44 +1,12 @@
-2023-10-11 21:13:14,595 ---------------Creating Outputs folder---------------
-2023-10-11 21:13:14,596 !!Output Folder already exists!!
-2023-10-11 21:13:14,596 ---------------Reading Input Data---------------
-2023-10-11 21:13:14,681 ---------------Transactional Data formed---------------
-2023-10-11 21:13:14,681 ---------------Performing Data Cleaning---------------
-2023-10-11 21:13:14,740 ---------------Data Cleaning Complete---------------
-2023-10-11 21:13:14,740 Total number of transactions from Dataset: 32561 
-2023-10-11 21:13:14,745 Maximum number of attributes present in the dataset : 15
-2023-10-11 21:13:14,794 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:14,802 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:14,866 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:15,329 ---------------FP Tree created---------------
-2023-10-11 21:13:15,400 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:15,409 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:15,474 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:16,006 ---------------FP Tree created---------------
-2023-10-11 21:13:16,073 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:16,080 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:16,144 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:16,667 ---------------FP Tree created---------------
-2023-10-11 21:13:16,739 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:16,749 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:16,816 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:17,352 ---------------FP Tree created---------------
-2023-10-11 21:13:17,419 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:17,545 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:17,608 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:18,011 ---------------FP Tree created---------------
-2023-10-11 21:13:18,079 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:18,198 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:18,260 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:18,659 ---------------FP Tree created---------------
-2023-10-11 21:13:18,725 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:18,853 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:18,917 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:19,383 ---------------FP Tree created---------------
-2023-10-11 21:13:19,449 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:19,457 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:19,521 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:20,078 ---------------FP Tree created---------------
-2023-10-11 21:13:20,143 ---------------Count of Items stored in a Dictionary---------------
-2023-10-11 21:13:20,151 ---------------Itemset sorted in decreasing order of their count---------------
-2023-10-11 21:13:20,212 ---------------Items in each transaction are sorted---------------
-2023-10-11 21:13:20,778 ---------------FP Tree created---------------
+2023-10-12 12:49:13,913 ---------------Creating Outputs folder---------------
+2023-10-12 12:49:13,913 !!Output Folder already exists!!
+2023-10-12 12:49:13,914 ---------------Reading Input Data---------------
+2023-10-12 12:49:14,106 ---------------Transactional Data formed---------------
+2023-10-12 12:49:14,106 ---------------Performing Data Cleaning---------------
+2023-10-12 12:49:14,228 ---------------Data Cleaning Complete---------------
+2023-10-12 12:49:14,228 Total number of transactions from Dataset: 32561 
+2023-10-12 12:49:14,235 Maximum number of attributes present in the dataset : 15
+2023-10-12 12:49:14,331 ---------------Count of Items stored in a Dictionary---------------
+2023-10-12 12:49:14,343 ---------------Itemset sorted in decreasing order of their count---------------
+2023-10-12 12:49:14,425 ---------------Items in each transaction are sorted---------------
+2023-10-12 12:49:15,231 ---------------FP Tree created---------------

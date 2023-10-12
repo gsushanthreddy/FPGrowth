@@ -1,5 +1,7 @@
 import logging
-
+import pandas as pd
+import numpy as np
+import csv
 from fp_tree_node import *
 from fp_growth import *
 from collections import defaultdict
@@ -29,8 +31,11 @@ def conditional_pattern_base(fp_tree, itemlist_retrieved,minimum_support):
     Algo for conditional pattern base
     
     """
+    # print(itemlist_retrieved,minimum_support)
     # Fetching items from header table and the corresponding nodes that are linked to the item fetched from header table
     for header_item, corresponding_nodes in fp_tree.fetch_items():
+        
+        # print(itemlist_retrieved,minimum_support)
         current_support_value = 0
         for node in corresponding_nodes:
             current_support_value += node.get_count
@@ -40,6 +45,7 @@ def conditional_pattern_base(fp_tree, itemlist_retrieved,minimum_support):
         if current_support_value >= minimum_support and header_item not in itemlist_retrieved:
             frequent_itemsets = [header_item] + itemlist_retrieved             
             # Returning frequent_itemsets
+            # print("Hello",frequent_itemsets,itemlist_retrieved)
             yield (frequent_itemsets,current_support_value)
             
             # Now, we need to traverse through the nodes of the present itemset
@@ -90,9 +96,9 @@ def conditional_pattern_base(fp_tree, itemlist_retrieved,minimum_support):
             for current_parent_path in conditional_fp_tree.fetch_parent_paths(conditional_item):
                 current_support_value = current_parent_path[-1].get_count
                 for node in reversed(current_parent_path[:-1]):
-                    node._count += current_support_value
-                        
-            for frequent_item_sets in conditional_pattern_base(conditional_fp_tree, frequent_itemsets,minimum_support):
+                    node._count += current_support_value     
+            
+            for frequent_item_sets in conditional_pattern_base(conditional_fp_tree,frequent_itemsets,minimum_support):
                 yield frequent_item_sets
                 
                 
@@ -109,6 +115,16 @@ def mine_frequent_itemsets(transactions,threshold):
     
     logger.info("---------------Count of Items stored in a Dictionary---------------")
     # Sorting the itemsets in decreasing order of their count
+    # temp_list = []
+    # # Filter out all the items that do not meet the minimum support requirement.
+    # for each_item, count in itemset.items():
+    #     if int(count) < threshold:
+    #         itemset[each_item] = count
+    #     else:
+    #         temp_list.append(each_item)
+
+    # for it in temp_list:
+    #     del itemset[it]
     try:
         itemset=dict(sorted(itemset.items(), key=lambda item:item[1],reverse=True))
     except Exception as e:
@@ -125,6 +141,7 @@ def mine_frequent_itemsets(transactions,threshold):
         
     logger.info("---------------Items in each transaction are sorted---------------")
     
+    # print(transactions)
     # It is time to build the FP Tree using the items present in the ordered transaction in transactional data
     fp_tree = FPTree()
     try:

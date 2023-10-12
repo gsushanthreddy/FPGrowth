@@ -113,7 +113,7 @@ class fp_tree_node(object):
         """
         if node.get_item not in self._children:
             self._children[node.get_item] = node
-            node.parent = self
+            node.get_parent = self
     
     @property
     def check_root(self):
@@ -189,14 +189,13 @@ class FPTree(object):
         parent_path = []
         for node in self.fetch_nodes(item):
             current_parent_path_of_present_node = []
-            while node and node is not node.check_root:
+            while node and not node.check_root:
                 current_parent_path_of_present_node.append(node)
                 node = node.get_parent
             
             # Since we traversed the tree from bottom to top, we need to reverse the parent path tree 
             current_parent_path_of_present_node.reverse()
             parent_path = [current_parent_path_of_present_node] + parent_path
-        
         return parent_path
     
     def add_to_header_table(self,present_item):
@@ -206,12 +205,11 @@ class FPTree(object):
             -present_item: Present node in the FP Tree
         """
         try:
-            # print("I am in function add header table")
             # Path to the present_item 
             present_path = self._header[present_item.get_item]
-            present_path[1].next_pointer = present_item
+            present_path[1].get_next_item = present_item
             self._header[present_item.get_item] = self.Track(present_path[0], present_item)
-        except KeyError:
+        except:
             self._header[present_item.get_item] = self.Track(present_item, present_item)
     
     @property        
