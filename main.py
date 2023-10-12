@@ -100,5 +100,6 @@ for threshold in minimum_support:
     start_time = time.time()
     for itemset, support in mine_frequent_itemsets(transactions, threshold):
         frequent_itemsets.append((itemset, support))
-    print(frequent_itemsets)
+        print(frequent_itemsets)
+        print("--------------------------")
 
