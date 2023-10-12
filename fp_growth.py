@@ -24,13 +24,78 @@ def order_transaction(transaction,itemset):
     transaction = sorted(transaction,key=lambda x:itemset[x],reverse=True)
     return transaction
 
-def conditional_pattern_base(fp_tree, itemlist_retrieved):
+def conditional_pattern_base(fp_tree, itemlist_retrieved,minimum_support):
     """
     Algo for conditional pattern base
     
     """
-    
-
+    # Fetching items from header table and the corresponding nodes that are linked to the item fetched from header table
+    for header_item, corresponding_nodes in fp_tree.fetch_items():
+        current_support_value = 0
+        for node in corresponding_nodes:
+            current_support_value += node.get_count
+        
+        # Checking whether the current support value of the node is greater or equal to the minimum support
+        # Also Need to check whether the item is already retrieved or not  
+        if current_support_value >= minimum_support and header_item not in itemlist_retrieved:
+            frequent_itemsets = [header_item] + itemlist_retrieved             
+            # Returning frequent_itemsets
+            yield (frequent_itemsets,current_support_value)
+            
+            # Now, we need to traverse through the nodes of the present itemset
+            path_of_parents = fp_tree.fetch_parent_paths(header_item)
+            
+            # Once the path of parents are fetched for the present item, we need to create a new conditional FP tree based on the nodes present in the path of parents
+            conditional_fp_tree = FPTree()
+            conditional_item = None
+            
+            # We have to add nodes to this conditional FP tree 
+            for current_parent_path in path_of_parents:
+                # Setting the last item in the current parent path as the conditional item. Conditional item should not be None
+                if conditional_item is None:
+                    conditional_item = current_parent_path[-1].get_item
+                
+                conditional_fp_tree_iterator = conditional_fp_tree.get_root
+                
+                # Now using this iterator we traverse the conditional FP tree 
+                for node in current_parent_path:
+                    
+                    # Checking whether the node is already present in the conditional FP Tree 
+                    present_item = conditional_fp_tree_iterator.find_node(node.get_item)
+                    
+                    # If the node is already present in the conditional FP Tree we move the iterator to the present_item and repeat the process till the present_item is None
+                    if present_item: 
+                        conditional_fp_tree_iterator = present_item
+                        continue
+                    
+                    # If the node is not present in the FP tree, a new node is created and added to the FP tree 
+                    else:
+                        
+                        # Initializing the count of this new node as 0
+                        count_of_new_node = 0
+                        if node.get_item == conditional_item:
+                            count_of_new_node = node.get_count
+                        
+                        # Creating this new node using fp_tree_node class
+                        present_item = fp_tree_node(conditional_fp_tree,node.get_item,count_of_new_node)
+                        conditional_fp_tree_iterator.add_node(present_item)
+                        
+                        # Now this node has to be updated in the header table
+                        conditional_fp_tree.add_to_header_table(present_item)
+                    
+                    # After adding the node to the Header table, initiliazing the conditional fp tree iterator to the present item node    
+                    conditional_fp_tree_iterator = present_item
+                    
+            # Once the conditional fp tree is generated, mining for frequent items starts
+            for current_parent_path in conditional_fp_tree.fetch_parent_paths(conditional_item):
+                current_support_value = current_parent_path[-1].get_count
+                for node in reversed(current_parent_path[:-1]):
+                    node._count += current_support_value
+                        
+            for frequent_item_sets in conditional_pattern_base(conditional_fp_tree, frequent_itemsets,minimum_support):
+                yield frequent_item_sets
+                
+                
 def mine_frequent_itemsets(transactions,threshold):
     
     # Initializing a default dictionary which assigns a value 0 if that key is not present in the dict
@@ -52,7 +117,6 @@ def mine_frequent_itemsets(transactions,threshold):
     logger.info("---------------Itemset sorted in decreasing order of their count---------------")    
     
     # Now we have to rearrange the items present in each transaction in the same way the itemsets are arranged
-    
     try:
         for index, transaction in enumerate(transactions):
             transactions[index] = order_transaction(transaction,itemset)
@@ -62,22 +126,20 @@ def mine_frequent_itemsets(transactions,threshold):
     logger.info("---------------Items in each transaction are sorted---------------")
     
     # It is time to build the FP Tree using the items present in the ordered transaction in transactional data
-    
     fp_tree = FPTree()
     try:
         for transaction in transactions:
-            if len(transaction) is not 0:
+            if len(transaction) != 0:
                 fp_tree.add_items(transaction)
-     
     except Exception as e:
-        return(e)
+        return e
     
     logger.info("---------------FP Tree created---------------")
     
     # Now we have to mine the frequent patterns from the FP tree that was created using the items from the transaction data
     
-    for frequent_itemsets in conditional_pattern_base(fp_tree,[]):
-        return frequent_itemsets
+    for frequent_itemsets in conditional_pattern_base(fp_tree,[],threshold):
+        yield frequent_itemsets
     
     
     

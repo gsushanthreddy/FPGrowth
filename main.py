@@ -22,7 +22,7 @@ transactions = []  # Initiliazing a list to store the transactions from csv file
 
 # For "Adults" dataset(https://archive.ics.uci.edu/dataset/2/adult) fetched from UCI benchmark datasets
 
-input_dataset_path = "datasets/Adult/adult.data"  # Input dataset path
+input_dataset_path = "datasets/Adult/adult.csv"  # Input dataset path
 
 # For each type of input dataset, we need to store the respective outputs in separate folders
 outputs_path = "outputs/Adult/Frequent_Items"
@@ -87,17 +87,18 @@ Since there are around 32k transactions in the dataset and the minimum_support i
 """
 # List of minimum support valeus to test FP Growth Algorithm
 
-minimum_support = [100, 500, 1000, 1500, 2000,
-                   2500, 3000, 5000, 10000, 15000, 25000, 30000]
+minimum_support = [100,200,500,700,1000,2000,5000,10000,15000]
 
 # Since we are running the algorithm multiple times, we are storing the time taken for the algorithm to complete and memory used for each threshold value for analysis
 
 time_taken = {}
 memory_used = {}
 
+
 for threshold in minimum_support:
     frequent_itemsets = []
     start_time = time.time()
     for itemset, support in mine_frequent_itemsets(transactions, threshold):
         frequent_itemsets.append((itemset, support))
+    print(frequent_itemsets)
 
