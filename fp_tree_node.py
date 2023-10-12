@@ -30,30 +30,45 @@ class fp_tree_node(object):
             return self._children[item]
         except:
             return None
-        
+    
+    @property    
     def get_tree(self):
         """
         Function to get the FP Tree
         """
         return self._tree
     
+    @property
     def get_item(self):
         """
         Function to get the item from FP Tree node
         """
         return self._item
     
+    @property
     def get_count(self):
         """
         Function to get the item from FP Tree node
         """
         return self._count
     
+    @property
     def get_children(self):
         """
         Function to get the item from FP Tree node
         """
-        return self._children
+        return tuple(self._children.values())
+    
+    @property
+    def get_parent(self):
+        """
+        Function to get the item from FP Tree node
+        """
+        return self._parent
+    
+    @get_parent.setter
+    def get_parent(self,value):
+        self._parent=value
     
     def increment_count(self):
         """
@@ -61,11 +76,16 @@ class fp_tree_node(object):
         """
         self._count += 1
     
+    @property
     def get_next_item(self):
         """
         Function to increase the count of the item node in the FP Tree
         """
         return self._next_pointer
+    
+    @get_next_item.setter
+    def get_next_item(self,value):
+        self._next_pointer = value
         
     def print_node(self):
         """
@@ -91,9 +111,16 @@ class fp_tree_node(object):
         -Parameters passed:
             -item : An item is passed as a node
         """
-        if node.get_item() not in self._children:
-            self._children[node.get_item()] = node
+        if node.get_item not in self._children:
+            self._children[node.get_item] = node
             node.parent = self
+    
+    @property
+    def check_root(self):
+        """
+        
+        """
+        return self._item is None and self._count is None
         
 class FPTree(object):
     Track = namedtuple("Track", "start end") # Why this
@@ -116,7 +143,8 @@ class FPTree(object):
         """
         # Accessing first node from the header table 
         node = self._header[item][0]
-        
+        if node is None:
+            return KeyError
         while node is not None:
             yield node
             node = node.get_next_item
@@ -141,7 +169,9 @@ class FPTree(object):
             else:
                 next_node = fp_tree_node(self,item)
                 current_node.add_node(next_node)
+                self.add_to_header_table(next_node)
             current_node = next_node
+        
             
     def fetch_items(self):
         """
@@ -150,3 +180,40 @@ class FPTree(object):
         """
         for item in self._header.keys():
             yield item, self.fetch_nodes(item)
+
+    def fetch_parent_paths(self,item):
+        """"
+        Function to fetch the parent paths of the present item 
+        
+        """
+        parent_path = []
+        for node in self.fetch_nodes(item):
+            current_parent_path_of_present_node = []
+            while node and node is not node.check_root:
+                current_parent_path_of_present_node.append(node)
+                node = node.get_parent
+            
+            # Since we traversed the tree from bottom to top, we need to reverse the parent path tree 
+            current_parent_path_of_present_node.reverse()
+            parent_path = [current_parent_path_of_present_node] + parent_path
+        
+        return parent_path
+    
+    def add_to_header_table(self,present_item):
+        """
+        Function to add items to the header table which are connected to the FP Tree
+        Paramters passed:
+            -present_item: Present node in the FP Tree
+        """
+        try:
+            # print("I am in function add header table")
+            # Path to the present_item 
+            present_path = self._header[present_item.get_item]
+            present_path[1].next_pointer = present_item
+            self._header[present_item.get_item] = self.Track(present_path[0], present_item)
+        except KeyError:
+            self._header[present_item.get_item] = self.Track(present_item, present_item)
+    
+    @property        
+    def get_root(self):
+        return self._root
